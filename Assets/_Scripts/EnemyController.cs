@@ -12,9 +12,12 @@ public class Boundary {
 }
 
 
+
 public class EnemyController : MonoBehaviour {
-	// PUBLIC INSTANCE VARIABLES
-	public Speed speed;
+    // PUBLIC INSTANCE VARIABLES
+
+    public GameController gameController;
+    public Speed speed;
 	public Boundary boundary;
 
 	// PRIVATE INSTANCE VARIABLES
@@ -36,12 +39,33 @@ public class EnemyController : MonoBehaviour {
 		if (currentPosition.y <= boundary.yMin) {
 			this._Reset();
 		}
+
+        
 	}
 
-	// resets the gameObject
-	private void _Reset() {
-		this._CurrentSpeed = Random.Range (speed.minSpeed, speed.maxSpeed);
+    public void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            this.gameController.LivesValue--;
+            this._resetPos();
+
+        }
+    }
+
+    // resets the gameObject
+    private void _Reset() {
+        this.gameController.ScoreValue += 10;
+        this._CurrentSpeed = Random.Range (speed.minSpeed, speed.maxSpeed);
 		Vector2 resetPosition = new Vector2 (Random.Range(boundary.xMin, boundary.xMax), boundary.yMax);
 		gameObject.GetComponent<Transform> ().position = resetPosition;
 	}
+
+    private void _resetPos()
+    {
+        
+        this._CurrentSpeed = Random.Range(speed.minSpeed, speed.maxSpeed);
+        Vector2 resetPosition = new Vector2(Random.Range(boundary.xMin, boundary.xMax), boundary.yMax);
+        gameObject.GetComponent<Transform>().position = resetPosition;
+    }
 }

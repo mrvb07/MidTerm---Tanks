@@ -3,6 +3,9 @@ using System.Collections;
 
 public class PlayerCollider : MonoBehaviour {
 
+    public GameController gameController;
+    public EnemyController enemy;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -12,4 +15,6 @@ public class PlayerCollider : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    
 }
